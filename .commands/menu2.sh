@@ -19,7 +19,8 @@ do
 		4) . ./../.commands/test.sh
 			echo "Inserted into table successfully."
 			;;
-		5) echo "Enter the table name you want to select from:"
+		5) echo "Enter the table you want to select from:"
+			ls -p | grep -v /
 			read sft
 			cat $sft
 			echo "Selected from table $sft successfully."
