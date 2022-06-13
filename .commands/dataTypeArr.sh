@@ -13,7 +13,11 @@ case $colNum in
 		do 
 		  echo "Enter Name of Column $col"
 		  read colname
-		  feildArry[$colNum]=$colname;col=$(($col + 1)) 
+		  	if [ $colname ]
+		  	then
+		  	feildArry[$colNum]=$colname;col=$(($col + 1)) 
+		  	else echo "Enter a Valid Name";continue
+		  	fi
 		  select ch in "String" "Numbers" "Mix"
 		  do
 		  	case $ch in 
@@ -26,7 +30,7 @@ case $colNum in
 		  done
 	       done 
 		 ;;
-	*) echo "Please Enter a Valid Value";break 	
+	*) echo "Please Enter a Valid Value";./dataTypeArr.sh 	
 esac
 
 #---------------------------------------------------------------------------------------------------------------------
