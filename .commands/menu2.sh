@@ -13,7 +13,9 @@ do
 					else
 						touch $ct
 						echo "table $ct created."
-					fi	
+					fi
+					export ct
+				./../.commands/dataTypeArr.sh
 					;;
 				*) echo "Please enter a valid name"
 			esac
