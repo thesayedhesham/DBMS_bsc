@@ -1,5 +1,6 @@
 #!/bin/bash
 PS3="Your Answer > "
+
 #------------------------------------------------------------------------------------------------------------------
 #echo "Enter Table Name"
 #read $tbname
@@ -44,10 +45,12 @@ reverse() {
 }
 
 reverse feildArry feildArray2
-echo ${feildArray2[*]} > .$ct
+IFS=":"
+echo "${feildArray2[*]}" > .$ct
 
 reverse dataArray dataArray2
-echo ${dataArray2[*]} >> .$ct
+IFS=":"
+echo "${dataArray2[*]}" >> $ct
 
 
 
