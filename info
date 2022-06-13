@@ -28,14 +28,3 @@ Hints:
 The Bonus:
 - Make the App to accept SQL Code or Use GUI instead of the above menu based
 
-
-#!/bin/zsh
-
- # -k1 = First char pressed without waiting, for /r or /n.
- # -t3 = timeout for 3 seconds
- # -s = prevent outputting the input back to stdout.
- echo "Press any letter..."
- read -t3 -k1 -s user_decision
-
- # Prints 1st arbitrary keypress entered during 3s timeout     
- echo $user_decision # EG: "y", or "n" for instance.
