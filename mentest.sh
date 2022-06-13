@@ -29,7 +29,7 @@ do
 					echo "Connected to $db database"
 					. ./../.commands/menu2.sh $db
 					;;
-				*) echo "Please enter a valid name"
+				*) echo "Please enter a valid name";
 			esac
 			;;
 		4) echo "Enter the database u want to drop:"
