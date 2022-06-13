@@ -1,48 +1,40 @@
-#!/bin/bash
+#!/bin/bash -x
 shopt -s extglob
 echo "Enter the table name you want to insert into:"
 ls -p | grep -v /
 read tname
+tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 if [ -f "$tname" ]; then
-	echo -n "Enter Number Of Table Columns? "
-	read columNum
-	x=$columNum
-	if [ $? -eq 0 ]
-	then  
-		case $columNum in
-		[0-9]) 	while [ $columNum -gt 0 ]
+	x=$tempo
+	while [ $tempo -gt 0 ]
 			do	
-				if  [ $columNum -eq $x ]
+				if  [ $tempo -eq $x ]
 				then echo "Enter P.K"
 					read pk
 					case $pk in		
 						+([A-Za-z0-9!@#$%^&*])) 
-							array[$columNum]=$pk
-							columNum=$(($columNum-1))
+							array[$tempo]=$pk
+							tempo=$(($tempo-1))
 							;;
 						*) echo "Enter a Valid Value of P.K"
 					esac
 				
 				else
 					
-					echo "Enter Name Of $columNum Field? "
+					echo "Enter Name Of $tempo Field? "
 					read ans
 					if [ $ans ]
 						then
-						array[$columNum]=$ans
-						columNum=$(($columNum-1))
-						else array[$columNum]="null"
-						columNum=$(($columNum-1))
+						array[$tempo]=$ans
+						tempo=$(($tempo-1))
+						else array[$tempo]="null"
+						tempo=$(($tempo-1))
 						
 					fi
 				fi
 					
 		
 			done
-			;;
-		*) echo "Enter Valid Value";
-		esac	
-	fi
 
 	reverse() {
 	    declare -n arr="$1" rev="$2"
@@ -53,8 +45,10 @@ if [ -f "$tname" ]; then
 	}
 
 	reverse array reversed
-	echo ${reversed[*]} > $tname
+	echo ${reversed[*]} >> $tname
+	unset array
+	unset reversed
 	echo "Inserted into table successfully."
 else
-	echo "$tnameno isn't a valid table name."
-fi	
+	echo "$tname isn't a valid table name."
+fi
