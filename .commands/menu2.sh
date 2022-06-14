@@ -39,8 +39,18 @@ do
 			ls -p | grep -v /
 			read sft
 			if [ -f "$sft" ]; then
-				cat $sft
-				echo "Selected from table $sft successfully."
+				echo "enter the primary key of your field"
+				read pk
+				opk=$pk
+				epk=`cat $sft | grep -w "^$opk" | echo > result`
+					if [ $epk ]
+					then
+						cat result
+						echo "Selected from table $sft successfully."
+							
+					else
+						echo "pk not found";
+					fi
 			else
 				echo "no table named $sft."
 			fi	

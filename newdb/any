@@ -1,6 +1,0 @@
-/etc/passwd:games:x:12:100:games:/usr/games:/sbin/nologin
-/etc/passwd:gluster:x:997:995:GlusterFS daemons:/run/gluster:/sbin/nologin
-/etc/passwd:geoclue:x:996:994:User for geoclue:/var/lib/geoclue:/sbin/nologin
-/etc/passwd:grafana:x:977:973:grafana user account:/usr/share/grafana:/sbin/nologin
-/etc/passwd:gdm:x:42:42::/var/lib/gdm:/sbin/nologin
-/etc/passwd:gnome-initial-setup:x:975:971::/run/gnome-initial-setup/:/sbin/nologin

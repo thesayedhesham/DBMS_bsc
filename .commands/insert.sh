@@ -14,7 +14,7 @@ tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 				read pk
 				case $pk in		
 					+([A-Za-z0-9!@#$%^&*])) 
-						opk=`grep "^$pk" tester | cut -d ":" -f1`
+						opk=`grep "^$pk" $tname | cut -d ":" -f1`
 						if [ $opk ]
 						then
 							echo "pk must be unique";continue

@@ -45,12 +45,12 @@ reverse() {
 }
 
 reverse feildArry feildArray2
-IFS=':';
+IFS=':'
 echo ${feildArray2[*]} > .$ct
 
 reverse dataArray dataArray2
-IFS=':';
-echo ${dataArray2[*]} >> .$ct
+IFS=':'
+echo ${dataArray2[*]} >> $ct
 
 
 
