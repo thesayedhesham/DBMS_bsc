@@ -28,7 +28,7 @@ do
 			case $dt in
 				+([A-Za-z0-9!@#$%^&*]))
 					if [ -f "$dt" ]; then
-						rm -i $dt
+						rm -i $dt .$dt
 						echo "Table $dt dropped successfully."
 					else
 						echo "no table named $dt."

@@ -50,7 +50,7 @@ echo "${feildArray2[*]}" > .$ct
 
 reverse dataArray dataArray2
 IFS=":"
-echo "${dataArray2[*]}" >> $ct
+echo "${dataArray2[*]}" >> .$ct
 
 
 
