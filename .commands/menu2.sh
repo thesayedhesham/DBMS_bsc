@@ -27,6 +27,7 @@ do
 			read dt
 			if [ -f "$dt" ]; then
 				rm -i $dt
+				rm -i .$dt
 				echo "Table $dt dropped successfully."
 			else
 				echo "no table named $dt."

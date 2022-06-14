@@ -49,7 +49,7 @@ tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 	}
 
 	reverse array reversed
-	IFS=':'
+	IFS=":"
 	echo ${reversed[*]} >> $tname
 	unset array
 	unset reversed
