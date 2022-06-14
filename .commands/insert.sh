@@ -50,7 +50,7 @@ tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 
 	reverse array reversed
 	IFS=":"
-	echo ${reversed[*]} >> $tname
+	echo "${reversed[*]}" >> $tname
 	unset array
 	unset reversed
 	echo "Inserted into table successfully."
