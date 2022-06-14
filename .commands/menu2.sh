@@ -13,9 +13,11 @@ do
 					else
 						touch $ct
 						echo "table $ct created."
-					fi	
+					fi
+					export ct
+				./../.commands/dataTypeArr.sh
 					;;
-				*) echo "Please enter a valid name"
+				*) echo "Please enter a valid table name"
 			esac
 			;;
 		2) ls -p | grep -v /
@@ -23,61 +25,51 @@ do
 			;;
 		3) echo "Enter the table name to drop:"
 			read dt
-			case $dt in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$dt" ]; then
-						rm -i $dt
-						echo "Table $dt dropped successfully."
-					else
-						echo "no table named $dt."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
+			if [ -f "$dt" ]; then
+				rm -i $dt
+				rm -i .$dt
+				echo "Table $dt dropped successfully."
+			else
+				echo "no table named $dt."
+			fi	
 			;;
-		4) . ./../.commands/test.sh
+		4) . ./../.commands/insert.sh
 			;;
 		5) echo "Enter the table you want to select from:"
 			ls -p | grep -v /
 			read sft
-			case $sft in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$sft" ]; then
-						cat $sft
+			if [ -f "$sft" ]; then
+				echo "enter the primary key of your field"
+				read pk
+				opk=$pk
+				epk=`cat $sft | grep -w "^$opk" | echo > result`
+					if [ $epk ]
+					then
+						cat result
 						echo "Selected from table $sft successfully."
+							
 					else
-						echo "no table named $sft."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
+						echo "pk not found";
+					fi
+			else
+				echo "no table named $sft."
+			fi	
 			;;
 		6) echo "Enter the table name you want to delete from:"
 			read dft
-			case $dft in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$dft" ]; then
-						echo "deleted from table $dft successfully."
-					else
-						echo "no table named $dft."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
+			if [ -f "$dft" ]; then
+				echo "deleted from table $dft successfully."
+			else
+				echo "no table named $dft."
+			fi	
 			;;
 		7) echo "Enter the table name you want to update:"
 			read upt
-			case $upt in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$upt" ]; then
-						echo "Updated table $upt successfully."
-					else
-						echo "no table named $upt."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
-
+			if [ -f "$upt" ]; then
+				echo "Updated table $upt successfully."
+			else
+				echo "no table named $upt."
+			fi	
 			;;
 		8) . ./../.commands/cd.sh ..
 			. ./mentest.sh
