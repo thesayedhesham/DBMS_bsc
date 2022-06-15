@@ -31,19 +31,7 @@ do
 		3) echo "Enter the table name to drop:"
 			ls -p | grep -v /
 			read dt
-<<<<<<< HEAD
-			case $dt in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$dt" ]; then
-						rm -i $dt .$dt
-						echo "Table $dt dropped successfully."
-					else
-						echo "no table named $dt."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
-=======
+
 			if [ -f "$dt" ]; then
 				#case yes no
 				rm -i $dt
@@ -52,7 +40,7 @@ do
 			else
 				echo "no table named $dt."
 			fi	
->>>>>>> 1897d586b7267f5bf8bcdcc4b839ab26d07afe47
+
 			;;
 		4) . ./../.commands/insert.sh
 			;;

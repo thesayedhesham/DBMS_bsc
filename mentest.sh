@@ -28,7 +28,6 @@ do
 				echo "No databases found"
 			fi		
 			
-			
 			;;
 		3) echo "Enter the database u want to connect to:"
 			ls -d */ 2>/dev/null | cut -f1 -d'/'
@@ -37,17 +36,11 @@ do
 					. ./.commands/cd.sh $db
 					echo "Connected to $db database"
 					. ./../.commands/menu2.sh $db
-<<<<<<< HEAD
-					;;
-				*) echo "Please enter a valid name";
-			esac
-=======
 				else
 					echo "no available database named $db."
 					continue 1
 				fi
->>>>>>> 1897d586b7267f5bf8bcdcc4b839ab26d07afe47
-			;;
+				;;
 		4) echo "Enter the database u want to drop:"
 			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read rdb
