@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 shopt -s extglob
 PS3="Enter your table options: "
 select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "return"
@@ -11,20 +11,27 @@ do
 					if [ -f "$ct" ]; then
 					    echo "$ct already exists"
 					else
-						touch $ct
+						export ct
+						./../.commands/dataTypeArr.sh
 						echo "table $ct created."
 					fi
-					export ct
-				./../.commands/dataTypeArr.sh
 					;;
-				*) echo "Please enter a valid name"
+				*) echo "Please enter a table name"
 			esac
 			;;
-		2) ls -p | grep -v /
-			echo "Tables listed successfully."
+		2) tlist="`ls -p | grep -v '/'`"
+			if [ "$tlist" ]
+			then
+				echo $tlist
+				echo "Tables listed successfully."
+			else
+				echo "No tables found"
+			fi
 			;;
 		3) echo "Enter the table name to drop:"
+			ls -p | grep -v /
 			read dt
+<<<<<<< HEAD
 			case $dt in
 				+([A-Za-z0-9!@#$%^&*]))
 					if [ -f "$dt" ]; then
@@ -36,50 +43,67 @@ do
 					;;
 				*) echo "Please enter a valid name"
 			esac
+=======
+			if [ -f "$dt" ]; then
+				#case yes no
+				rm -i $dt
+				rm -i .$dt
+				echo "Table $dt dropped successfully."
+			else
+				echo "no table named $dt."
+			fi	
+>>>>>>> 1897d586b7267f5bf8bcdcc4b839ab26d07afe47
 			;;
-		4) . ./../.commands/test.sh
+		4) . ./../.commands/insert.sh
 			;;
 		5) echo "Enter the table you want to select from:"
 			ls -p | grep -v /
 			read sft
-			case $sft in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$sft" ]; then
-						cat $sft
-						echo "Selected from table $sft successfully."
-					else
-						echo "no table named $sft."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
+			if [ -f "$sft" ]; then
+				echo "enter the primary key of your field"
+				read pk
+				epk="`cat $sft | grep -w "^$pk"`"
+				if [ "$epk" ]
+				then
+					echo "$epk"
+					echo "Selected from table $sft successfully."
+						
+				else
+					echo "Field not found";
+				fi
+			else
+				echo "no table named $sft."
+			fi	
 			;;
 		6) echo "Enter the table name you want to delete from:"
+			# 
+			ls -p | grep -v '/'
 			read dft
-			case $dft in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$dft" ]; then
-						echo "deleted from table $dft successfully."
-					else
-						echo "no table named $dft."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
+			if [ -f "$dft" ]; then
+				echo "enter the primary key of your field you want to delete"
+				read pk
+				dpk="`cat $sft | grep -w "^$pk"`"
+				echo "$dpk"
+				if [ "$dpk" ]
+				then
+					`grep -vw "$pk" $dft > temp ; mv temp t1`
+					echo "Deleted from table $sft successfully."
+						
+				else
+					echo "Field not found";
+				fi
+			else
+				echo "no table named $dft."
+			fi	
 			;;
 		7) echo "Enter the table name you want to update:"
+			ls -p | grep -v '/'
 			read upt
-			case $upt in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -f "$upt" ]; then
-						echo "Updated table $upt successfully."
-					else
-						echo "no table named $upt."
-					fi	
-					;;
-				*) echo "Please enter a valid name"
-			esac
-
+			if [ -f "$upt" ]; then
+				echo "Updated table $upt successfully."
+			else
+				echo "no table named $upt."
+			fi	
 			;;
 		8) . ./../.commands/cd.sh ..
 			. ./mentest.sh

@@ -15,37 +15,49 @@ do
 						echo "Database $cdb created successfully."
 					fi
 					;;
-				*) echo "Please enter a valid name"
+				*) echo "Please enter a database name"
+					continue
 			esac
 			;;
-		2) ls -d */
-			echo "Database listed successfully."
+		2) dblist="`ls -d */ 2>/dev/null | cut -f1 -d'/'`"
+			if [ "$dblist" ]
+			then
+				echo "$dblist"
+				echo "Databases listed successfully."
+			else
+				echo "No databases found"
+			fi		
+			
+			
 			;;
 		3) echo "Enter the database u want to connect to:"
+			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read db
-			case $db in
-				+([A-Za-z0-9!@#$%^&*]))
+				if [ -d "$db" ]; then
 					. ./.commands/cd.sh $db
 					echo "Connected to $db database"
 					. ./../.commands/menu2.sh $db
+<<<<<<< HEAD
 					;;
 				*) echo "Please enter a valid name";
 			esac
+=======
+				else
+					echo "no available database named $db."
+					continue 1
+				fi
+>>>>>>> 1897d586b7267f5bf8bcdcc4b839ab26d07afe47
 			;;
 		4) echo "Enter the database u want to drop:"
-			ls -d */
+			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read rdb
-			case $rdb in
-				+([A-Za-z0-9!@#$%^&*]))
-					if [ -d "$rdb" ]; then
-						rm -r -i $rdb
-						echo "Dropped database $rdb successfully."
-					else
-						echo "no available database named $rdb."
-					fi
-					;;
-				*) echo "Please enter a valid name"
-			esac
+			if [ -d "$rdb" ]; then
+				# case yes,no
+				rm -r -i $rdb
+				echo "Dropped database $rdb successfully."
+			else
+				echo "no available database named $rdb."
+			fi
 			;;
 		5) exit
 			;;
