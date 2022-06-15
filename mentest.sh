@@ -15,14 +15,23 @@ do
 						echo "Database $cdb created successfully."
 					fi
 					;;
-				*) echo "Please enter a name"
+				*) echo "Please enter a database name"
 					continue
 			esac
 			;;
-		2) ls -d */
-			echo "Database listed successfully."
+		2) dblist="`ls -d */ 2>/dev/null | cut -f1 -d'/'`"
+			if [ "$dblist" ]
+			then
+				echo "$dblist"
+				echo "Databases listed successfully."
+			else
+				echo "No databases found"
+			fi		
+			
+			
 			;;
 		3) echo "Enter the database u want to connect to:"
+			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read db
 				if [ -d "$db" ]; then
 					. ./.commands/cd.sh $db
@@ -34,7 +43,7 @@ do
 				fi
 			;;
 		4) echo "Enter the database u want to drop:"
-			ls -d */
+			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read rdb
 			if [ -d "$rdb" ]; then
 				rm -r -i $rdb

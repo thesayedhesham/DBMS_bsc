@@ -17,11 +17,17 @@ do
 					export ct
 				./../.commands/dataTypeArr.sh
 					;;
-				*) echo "Please enter a valid table name"
+				*) echo "Please enter a table name"
 			esac
 			;;
-		2) ls -p | grep -v /
-			echo "Tables listed successfully."
+		2) tlist="`ls -p | grep -v '/'`"
+			if [ $tlist ]
+			then
+				echo $tlist
+				echo "Tables listed successfully."
+			else
+				echo "No tables found"
+			fi
 			;;
 		3) echo "Enter the table name to drop:"
 			read dt
@@ -42,20 +48,21 @@ do
 				echo "enter the primary key of your field"
 				read pk
 				opk=$pk
-				epk=`cat $sft | grep -w "^$opk" | echo > result`
-					if [ $epk ]
+				epk="`cat $sft | grep -w "^$opk"`"
+					if [ "$epk" ]
 					then
-						cat result
+						echo "$epk"
 						echo "Selected from table $sft successfully."
 							
 					else
-						echo "pk not found";
+						echo "Field not found";
 					fi
 			else
 				echo "no table named $sft."
 			fi	
 			;;
 		6) echo "Enter the table name you want to delete from:"
+			ls -p | grep -v '/'
 			read dft
 			if [ -f "$dft" ]; then
 				echo "deleted from table $dft successfully."
@@ -64,6 +71,7 @@ do
 			fi	
 			;;
 		7) echo "Enter the table name you want to update:"
+			ls -p | grep -v '/'
 			read upt
 			if [ -f "$upt" ]; then
 				echo "Updated table $upt successfully."
