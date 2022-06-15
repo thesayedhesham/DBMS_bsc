@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 shopt -s extglob
 PS3="Enter your table options: "
 select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "return"
@@ -11,17 +11,16 @@ do
 					if [ -f "$ct" ]; then
 					    echo "$ct already exists"
 					else
-						touch $ct
+						export ct
+						./../.commands/dataTypeArr.sh
 						echo "table $ct created."
 					fi
-					export ct
-				./../.commands/dataTypeArr.sh
 					;;
 				*) echo "Please enter a table name"
 			esac
 			;;
 		2) tlist="`ls -p | grep -v '/'`"
-			if [ $tlist ]
+			if [ "$tlist" ]
 			then
 				echo $tlist
 				echo "Tables listed successfully."
@@ -30,8 +29,10 @@ do
 			fi
 			;;
 		3) echo "Enter the table name to drop:"
+			ls -p | grep -v /
 			read dt
 			if [ -f "$dt" ]; then
+				#case yes no
 				rm -i $dt
 				rm -i .$dt
 				echo "Table $dt dropped successfully."
@@ -47,25 +48,36 @@ do
 			if [ -f "$sft" ]; then
 				echo "enter the primary key of your field"
 				read pk
-				opk=$pk
-				epk="`cat $sft | grep -w "^$opk"`"
-					if [ "$epk" ]
-					then
-						echo "$epk"
-						echo "Selected from table $sft successfully."
-							
-					else
-						echo "Field not found";
-					fi
+				epk="`cat $sft | grep -w "^$pk"`"
+				if [ "$epk" ]
+				then
+					echo "$epk"
+					echo "Selected from table $sft successfully."
+						
+				else
+					echo "Field not found";
+				fi
 			else
 				echo "no table named $sft."
 			fi	
 			;;
 		6) echo "Enter the table name you want to delete from:"
+			# 
 			ls -p | grep -v '/'
 			read dft
 			if [ -f "$dft" ]; then
-				echo "deleted from table $dft successfully."
+				echo "enter the primary key of your field you want to delete"
+				read pk
+				dpk="`cat $sft | grep -w "^$pk"`"
+				echo "$dpk"
+				if [ "$dpk" ]
+				then
+					`grep -vw "$pk" $dft > temp ; mv temp t1`
+					echo "Deleted from table $sft successfully."
+						
+				else
+					echo "Field not found";
+				fi
 			else
 				echo "no table named $dft."
 			fi	

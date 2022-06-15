@@ -46,6 +46,7 @@ do
 			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read rdb
 			if [ -d "$rdb" ]; then
+				# case yes,no
 				rm -r -i $rdb
 				echo "Dropped database $rdb successfully."
 			else

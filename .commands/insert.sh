@@ -4,7 +4,7 @@ echo "Enter the table name you want to insert into:"
 ls -p | grep -v /
 read tname
 if [ -f "$tname" ]; then
-tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
+tempo=`awk -F':' '{print NF}' .$tname | sort -nu | tail -n 1`
 	x=$tempo
 	while [ $tempo -gt 0 ]
 		do	
@@ -27,7 +27,7 @@ tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 				esac
 			else
 				
-				echo "Enter Name Of $tempo Field? "
+				echo "Enter Name Of field $(($x-$tempo+1)) :"
 				read ans
 				if [ $ans ]
 					then
@@ -40,6 +40,11 @@ tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 			fi
 		done
 
+
+	echo "Inserted into table successfully."
+else
+	echo "$tname isn't a valid table name."
+fi
 	reverse() {
 	    declare -n arr="$1" rev="$2"
 	    for i in "${arr[@]}"
@@ -53,7 +58,3 @@ tempo=`awk '{print NF}' .$tname | sort -nu | tail -n 1`
 	echo "${reversed[*]}" >> $tname
 	unset array
 	unset reversed
-	echo "Inserted into table successfully."
-else
-	echo "$tname isn't a valid table name.";continue
-fi

@@ -31,7 +31,7 @@ case $colNum in
 		  done
 	       done 
 		 ;;
-	*) echo "Please Enter a Valid Value";./dataTypeArr.sh 	
+	*) echo "Please Enter a Valid Value";./../.commands/dataTypeArr.sh	
 esac
 
 #---------------------------------------------------------------------------------------------------------------------
@@ -51,6 +51,7 @@ echo "${feildArray2[*]}" > .$ct
 reverse dataArray dataArray2
 IFS=':'
 echo "${dataArray2[*]}" >> .$ct
+touch $ct
 
 
 
