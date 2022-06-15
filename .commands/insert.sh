@@ -1,50 +1,70 @@
 #!/bin/bash
 shopt -s extglob
+chkType(){
+
+	if [ $1 ]
+	then 
+		case $1 in 
+			+([A-Za-z])) type="String"
+				;;
+			+([0-9])) type="Number"
+				;;
+			+([A-za-z0-9@#$%^&*])) type="Mix"
+				;;
+			*) echo "Enter a Valid Value"
+		esac		
+	fi
+	}
 echo "Enter the table name you want to insert into:"
 ls -p | grep -v /
+echo "----------------------------------------------------------------------"
 read tname
+echo "----------------------------------------------------------------------"
 if [ -f "$tname" ]; then
-tempo=`awk -F':' '{print NF}' .$tname | sort -nu | tail -n 1`
+tempo=`awk -F: '{print NF}' .$tname | sort -nu | tail -n 1`
+echo $tempo
 	x=$tempo
+	felid=2
 	while [ $tempo -gt 0 ]
 		do	
 			if  [ $tempo -eq $x ]
 			then 
-				echo "Enter P.K"
+				ftype=`awk -F: '{print $1}' .$tname | tail -n 1`
+				fname=`awk -F: '{print $1}' .$tname | head -n 1`	
+				echo "Enter $fname (P.K)"
 				read pk
-				case $pk in		
-					+([A-Za-z0-9!@#$%^&*])) 
-						opk=`grep "^$pk" $tname | cut -d ":" -f1`
-						if [ $opk ]
-						then
-							echo "pk must be unique";continue
-						else
-							array[$tempo]=$pk
-							tempo=$(($tempo-1))
-						fi
-						;;
-					*) echo "Enter a Valid Value of P.K"
-				esac
+				chkType $pk
+				if [ $ftype = $type ]
+				then 
+					unpk=`cat $tname | grep -w "^$pk"` 
+					if [ $unpk ]
+					then echo "This P.K alredy Existes";continue
+					else
+					array[$tempo]=$pk
+					tempo=$(($tempo-1))
+					fi
+				else echo "Enter a Vaild Value";
+				fi
 			else
-				
-				echo "Enter Name Of field $(($x-$tempo+1)) :"
-				read ans
-				if [ $ans ]
-					then
-					array[$tempo]=$ans
-					tempo=$(($tempo-1))
-					else array[$tempo]="null"
-					tempo=$(($tempo-1))
-					
+				ftype=`awk -F: '{print '$+$felid'}' .$tname | tail -n 1`;	
+				fname=`awk -F: '{print '$+$felid'}' .$tname | head -n 1`
+				echo "Enter Value OF $fname"
+				read fel
+				chkType $fel
+				if [ $ftype = $type ]
+				then 
+					array[$tempo]=$fel;
+					tempo=$(($tempo-1));
+					felid=$(($felid+1));
+				else echo "Enter a Vaild Value";continue
 				fi
 			fi
 		done
 
-
-	echo "Inserted into table successfully."
 else
-	echo "$tname isn't a valid table name."
+	echo "$tname isn't a valid table name."; . ../.commands/insert.sh
 fi
+
 	reverse() {
 	    declare -n arr="$1" rev="$2"
 	    for i in "${arr[@]}"
@@ -52,9 +72,9 @@ fi
 		rev=("$i" "${rev[@]}")
 	    done
 	}
-
 	reverse array reversed
 	IFS=":"
 	echo "${reversed[*]}" >> $tname
-	unset array
-	unset reversed
+	echo "Inserted into table successfully."
+
+
