@@ -54,7 +54,10 @@ IFS=":"
 echo "${dataArray2[*]}" >> .$ct
 
 touch $ct
-
+unset feildArray
+unset dataArray
+unset feildArray2
+unset dataArray2
 
 
 

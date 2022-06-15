@@ -19,7 +19,7 @@ do
 				*) echo "Please enter a table name"
 			esac
 			;;
-		2) tlist="`ls -p | grep -v '/'`"
+		2) tlist=`ls -p | grep -v '/'`
 			if [ "$tlist" ]
 			then
 				echo $tlist
@@ -70,18 +70,18 @@ do
 			if [ -f "$dft" ]; then
 				echo "enter the primary key of your field you want to delete"
 				read pk
-				dpk="`cat $sft | grep -w "^$pk"`"
-				echo "$dpk"
+				dpk="`cat $dft | grep -w "^$pk"`"
+				echo $dpk
 				if [ "$dpk" ]
 				then
-					`grep -vw "$pk" $dft > temp ; mv temp t1`
-					echo "Deleted from table $sft successfully."
+					`grep -vw "$pk" $dft > temp ; mv temp $dft`
+					echo "Deleted from table $dft successfully."
 						
 				else
 					echo "Field not found";
 				fi
 			else
-				echo "no table named $dft."
+				echo "no table named $dft"
 			fi	
 			;;
 		7) echo "Enter the table name you want to update:"
@@ -100,3 +100,5 @@ do
 			;;
 	esac
 done
+
+

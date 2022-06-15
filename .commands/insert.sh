@@ -36,8 +36,8 @@ echo $tempo
 				chkType $pk
 				if [ $ftype = $type ]
 				then 
-					unpk=`cat $tname | grep -w "^$pk"` 
-					if [ $unpk ]
+					unpk="`cat $tname | grep -w "^$pk"`" 
+					if [ "$unpk" ]
 					then echo "This P.K alredy Existes";continue
 					else
 					array[$tempo]=$pk
@@ -76,5 +76,7 @@ fi
 	IFS=":"
 	echo "${reversed[*]}" >> $tname
 	echo "Inserted into table successfully."
+	unset array
+   	unset reversed
 
 
