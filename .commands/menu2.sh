@@ -1,6 +1,6 @@
 #!/bin/bash -x
 shopt -s extglob
-PS3="Enter your table options: "
+PS3="Enter your options: "
 select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "return"
 do	
 	case $REPLY in
@@ -33,10 +33,19 @@ do
 			read dt
 
 			if [ -f "$dt" ]; then
-				#case yes no
-				rm -i $dt
-				rm -i .$dt
-				echo "Table $dt dropped successfully."
+				while true; do
+				    read -p "Do you wish to drop this table?'all of its content will be deleted' " yn
+				    case $yn in
+					[Yy]* ) rm $dt
+						rm .$dt
+						echo "Table $dt dropped successfully."
+						break
+						;;
+					[Nn]* ) break
+						;;
+					* ) echo "Please answer yes or no.";;
+				    esac
+				done
 			else
 				echo "no table named $dt."
 			fi	
@@ -48,37 +57,72 @@ do
 			ls -p | grep -v /
 			read sft
 			if [ -f "$sft" ]; then
-				echo "enter the primary key of your field"
-				read pk
-				epk="`cat $sft | grep -w "^$pk"`"
-				if [ "$epk" ]
+				isempt=`cat $sft | wc -l`
+				if [ $isempt -eq 0 ]
 				then
-					echo "$epk"
-					echo "Selected from table $sft successfully."
-						
+					echo "table is empty"
 				else
-					echo "Field not found";
+				select sopt in "Select specific record" "Select all table data"
+				do
+					case $REPLY in
+					1) echo "enter the primary key of your record"
+						read pk
+						epk="`cat $sft | grep -w "^$pk"`"
+						if [ "$epk" ]
+						then
+							echo "$epk"
+							echo "Selected from table $sft successfully."
+													
+						else
+							echo "Field not found";
+							
+						fi
+						break
+						;;
+					2) cat $sft
+						break
+						;;
+					* ) echo "Please enter an option."
+						
+						;;
+					esac
+					
+				done
 				fi
 			else
 				echo "no table named $sft."
 			fi	
 			;;
 		6) echo "Enter the table name you want to delete from:"
-			# 
 			ls -p | grep -v '/'
 			read dft
 			if [ -f "$dft" ]; then
-				echo "enter the primary key of your field you want to delete"
-				read pk
-				dpk="`cat $dft | grep -w "^$pk"`"
-				echo $dpk
-				if [ "$dpk" ]
+				isempt=`cat $dft | wc -l`
+				if [ $isempt -eq 0 ]
 				then
-					`grep -vw "$pk" $dft > temp ; mv temp $dft`
-					echo "Deleted from table $dft successfully."
-						
+					echo "table is empty"
 				else
-					echo "Field not found";
+					echo "enter the primary key of your field you want to delete"
+					read pk
+					dpk="`cat $dft | grep -w "^$pk"`"
+					echo $dpk
+					if [ "$dpk" ]
+					then
+						while true; do
+						    read -p "Do you wish to delete this record?" yn
+						    case $yn in
+							[Yy]* ) `grep -vw "$pk" $dft > temp ; mv temp $dft`
+								echo "Deleted from table $dft successfully."
+								break
+								;;
+							[Nn]* ) break
+								;;
+							* ) echo "Please answer yes or no.";;
+						    esac
+						done	
+					else
+						echo "Field not found";
+					fi
 				fi
 			else
 				echo "no table named $dft"

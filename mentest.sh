@@ -45,9 +45,19 @@ do
 			ls -d */ 2>/dev/null | cut -f1 -d'/'
 			read rdb
 			if [ -d "$rdb" ]; then
-				# case yes,no
-				rm -r -i $rdb
-				echo "Dropped database $rdb successfully."
+				while true; do
+				    read -p "Do you wish to drop this database?'all of its tables will be deleted' " yn
+				    case $yn in
+					[Yy]* ) rm -r $rdb
+						echo "Dropped database $rdb successfully."
+						break
+						;;
+					[Nn]* ) break
+						;;
+					* ) echo "Please answer yes or no.";;
+				    esac
+				done
+
 			else
 				echo "no available database named $rdb."
 			fi
